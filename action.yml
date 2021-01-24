@@ -1,6 +1,6 @@
 name: Manage Kubeflow Pipelines on any Kubeflow cluster. 
 description: Build, deploy and run a Kubeflow Pipeline on any Kubeflow cluster.
-author: Niklas Hansson
+author: Bernd Verst
 inputs:
   KUBEFLOW_URL:
     description: The endpoint where your Kubeflow UI is running. 
