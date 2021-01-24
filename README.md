@@ -25,7 +25,7 @@ jobs:
 
     - name: Submit Kubeflow pipeline
       id: kubeflow
-      uses: NikeNano/kubeflow-github-action@master
+      uses: berndverst/kubeflow-github-action@master
       with:
         KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}  # Optional
         ENCODED_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GKE_KEY }}  # Optional
@@ -58,7 +58,7 @@ jobs:
 
     - name: Submit Kubeflow pipeline
       id: kubeflow
-      uses: NikeNano/kubeflow-github-action@master
+      uses: berndverst/kubeflow-github-action@master
       with:
         KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}  # Optional
         ENCODED_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GKE_KEY }}  # Optional
