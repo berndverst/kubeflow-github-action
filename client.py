@@ -139,7 +139,8 @@ class Client(object):
             return config
 
         try:
-            k8s.config.load_kube_config(client_configuration=config)
+            contexts, active_context = k8s.config.list_kube_config_contexts()
+            k8s.config.load_kube_config(client_configuration=config, context=active_context['name'])
         except:
             print('Failed to load kube config.')
             return config
