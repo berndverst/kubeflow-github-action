@@ -1,6 +1,6 @@
-# This action Submits Kubeflow Pipelines to Kubeflow cluster running on Google Cloud Platform. 
+# This action Submits Kubeflow Pipelines to a Kubeflow cluster
 
-The purpose of this action is to allow for automated deployments of [Kubeflow Pipelines](https://github.com/kubeflow/pipelines) on Google Cloud Platform (GCP). The action will collect the pipeline from a python file and compile it before uploading it to Kubeflow. The Kubeflow deployment must be using [IAP](https://www.kubeflow.org/docs/gke/deploy/monitor-iap-setup/) on GCP to work.
+The purpose of this action is to allow for automated deployments of [Kubeflow Pipelines](https://github.com/kubeflow/pipelines) on any Kubeflow cluster. The action will collect the pipeline from a python file and compile it before uploading it to Kubeflow. If using GCP, the Kubeflow deployment must be using [IAP](https://www.kubeflow.org/docs/gke/deploy/monitor-iap-setup/).
 
 # Usage
 
@@ -27,10 +27,10 @@ jobs:
       id: kubeflow
       uses: NikeNano/kubeflow-github-action@master
       with:
-        KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}
-        ENCODED_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GKE_KEY }}
-        GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcloud-sa.json
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}  # Optional
+        ENCODED_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GKE_KEY }}  # Optional
+        GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcloud-sa.json  # Optional
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}  # Optional
         PIPELINE_CODE_PATH: "example_pipeline.py"
         PIPELINE_FUNCTION_NAME: "flipcoin_pipeline"
         PIPELINE_PARAMETERS_PATH: "parameters.yaml"
@@ -60,10 +60,10 @@ jobs:
       id: kubeflow
       uses: NikeNano/kubeflow-github-action@master
       with:
-        KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}
-        ENCODED_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GKE_KEY }}
-        GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcloud-sa.json
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}  # Optional
+        ENCODED_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GKE_KEY }}  # Optional
+        GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcloud-sa.json  # Optional
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}  # Optional
         PIPELINE_CODE_PATH: "example_pipeline.py"
         PIPELINE_FUNCTION_NAME: "flipcoin_pipeline"
         PIPELINE_PARAMETERS_PATH: "parameters.yaml"
@@ -95,19 +95,22 @@ for example see [here](https://github.com/NikeNano/kubeflow-github-action/blob/m
 ## Mandatory inputs
 
 1) KUBEFLOW_URL: The URL to your kubeflow deployment
-2) GKE_KEY: Service account with access to kubeflow and rights to deploy, see [here](http://amygdala.github.io/kubeflow/ml/2019/08/22/remote-deploy.html) for example, the credentials needs to be bas64 encode:
+2) PIPELINE_CODE_PATH: The full path to the python file containing the pipeline
+3) PIPELINE_FUNCTION_NAME: The name of the pipeline function the PIPELINE_CODE_PATH file
+4) PIPELINE_PARAMETERS_PATH: The pipeline parameters
+5) EXPERIMENT_NAME: The name of the kubeflow experiment within which the pipeline should run
+6) RUN_PIPELINE: If you like to also run the pipeline set "True"
+7) VERSION_GITHUB_SHA: If the pipeline containers are versioned with the github hash
 
+## Mandatory when using GCP
+
+1) GKE_KEY: Service account with access to kubeflow and rights to deploy, see [here](http://amygdala.github.io/kubeflow/ml/2019/08/22/remote-deploy.html) for example, the credentials needs to be bas64 encode:
 ``` bash
 cat path-to-key.json | base64
 ```
-3) GOOGLE_APPLICATION_CREDENTIALS: The path to where you like to store the secrets, which needs to be decoded from GKE_KEY
+2) GOOGLE_APPLICATION_CREDENTIALS: The path to where you like to store the secrets, which needs to be decoded from GKE_KEY
 3) CLIENT_ID: The IAP client secret
-4) PIPELINE_CODE_PATH: The full path to the python file containing the pipeline
-5) PIPELINE_FUNCTION_NAME: The name of the pipeline function the PIPELINE_CODE_PATH file
-6) PIPELINE_PARAMETERS_PATH: The pipeline parameters
-7) EXPERIMENT_NAME: The name of the kubeflow experiment within which the pipeline should run
-8) RUN_PIPELINE: If you like to also run the pipeline set "True"
-9) VERSION_GITHUB_SHA: If the pipeline containers are versioned with the github hash
+
 
 
 # Future work
